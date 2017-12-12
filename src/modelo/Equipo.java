@@ -50,6 +50,11 @@ public class Equipo {
     public void setCreacion(LocalDate creacion) {
         this.creacion = creacion;
     }
+
+    @Override
+    public String toString() {
+        return "Equipo{" + "nombre=" + nombre + ", ciudad=" + ciudad + ", creacion=" + creacion + '}';
+    }
     
     
 }

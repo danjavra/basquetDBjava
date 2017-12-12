@@ -90,6 +90,11 @@ public class Jugadores {
     public void setEquipo(Equipo equipo) {
         this.equipo = equipo;
     }
+
+    @Override
+    public String toString() {
+        return "Jugadores{" + "nombre=" + nombre + ", nacimiento=" + nacimiento + ", canastas=" + canastas + ", asistencias=" + asistencias + ", rebotes=" + rebotes + ", posicion=" + posicion + ", equipo=" + equipo + '}';
+    }
     
     
 }

@@ -5,11 +5,14 @@
  */
 package basquet;
 
+import excepciones.MiExcepcion;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import modelo.Equipo;
 import modelo.Jugadores;
@@ -25,7 +28,7 @@ private Connection conexion;
      */
     public void insertarEquipo (Equipo e) throws SQLException {
         // Definimos la consulta
-        String insert = "insert into equipo values (?, ?, ?)";
+        String insert = "insert into team values (?, ?, ?)";
         // Necesitamos preparar la consulta parametrizada
         PreparedStatement ps = conexion.prepareStatement(insert); 
         // Le damos valor a los interrogantes
@@ -38,20 +41,54 @@ private Connection conexion;
         ps.close();
     }
     
-    public void insertarJugadores (Jugadores j) throws SQLException {
+    public void insertarJugadores (Jugadores j) throws SQLException, MiExcepcion {
+      if (existeJugador(j)){
+          throw new MiExcepcion("Ya existe un jugador con ese nombre");
+      } else { 
         // Definimos la consulta
-        String insert = "insert into equipo values (?, ?, ?, ?, ?, ?, ?)";
+        String insert = "insert into player values (?, ?, ?, ?, ?, ?, ?)";
         // Necesitamos preparar la consulta parametrizada
         PreparedStatement ps = conexion.prepareStatement(insert); 
         // Le damos valor a los interrogantes
         ps.setString(1, j.getNombre());
-        ps.setDate(2, Date.valueOf(j.getNombre()));
+        ps.setDate(2, Date.valueOf(j.getNacimiento()));
         ps.setInt(3, j.getCanastas());
         ps.setInt(4, j.getAsistencias());
         ps.setInt(5, j.getRebotes());
         ps.setString(6, j.getPosicion());
         ps.setString(7, j.getEquipo().getNombre());
+        
+        ps.executeUpdate();
+        ps.close();
+      }
     }
+    
+    private boolean existeJugador(Jugadores j) throws SQLException {
+        String select = "select * from player where name='" + j.getNombre() + "'";
+        Statement st = conexion.createStatement();
+        boolean existe = false;
+        ResultSet rs = st.executeQuery(select);
+        if (rs.next()) {
+            existe = true;
+        }
+        rs.close();
+        st.close();
+        return existe;
+    }
+
+    
+      public void modificar(Jugadores j) throws SQLException {
+         String update = "update from player where nombre='" + j.getNombre() + "'";
+         PreparedStatement ps1 = conexion.prepareStatement(update);
+         
+        //  switch(){
+              
+         // }
+                  
+                   
+        
+    } 
+    
     
      public void conectar() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/basket";
@@ -59,7 +96,7 @@ private Connection conexion;
         String pass = "";
         conexion = DriverManager.getConnection(url, user, pass);
     }
-    
+
     public void desconectar() throws SQLException {
         if (conexion != null) {
             conexion.close();

@@ -6,6 +6,7 @@
 package BasquetApp;
 
 import basquet.Basquet;
+import excepciones.MiExcepcion;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import modelo.Equipo;
@@ -17,7 +18,7 @@ import modelo.Jugadores;
  */
 public class BasquetApp {
     
-     public static void main(String[] args) {
+     public static void main(String[] args) throws MiExcepcion {
         // Necesitamos un objeto de tipo RestaurantDAO
         Basquet basquet = new Basquet();
         System.out.println("Testeando conexión con la base de datos...");
