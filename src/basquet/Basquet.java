@@ -77,16 +77,17 @@ private Connection conexion;
     }
 
     
-      public void modificar(Jugadores j) throws SQLException {
-         String update = "update from player where nombre='" + j.getNombre() + "'";
-         PreparedStatement ps1 = conexion.prepareStatement(update);
-         
-        //  switch(){
-              
-         // }
-                  
-                   
-        
+      public void modificarCanastas(Jugadores j) throws SQLException, MiExcepcion {
+         if(!existeJugador(j)){
+             throw new MiExcepcion("ERROR: No existe un jugador con ese nombre");
+         }
+         String update = "update from player set canastas=? where nombre='" + j.getNombre() + "'";
+         PreparedStatement ps = conexion.prepareStatement(update); 
+        // Le damos valor a los interrogantes
+       
+        ps.setInt(3, j.getCanastas());
+        ps.executeUpdate();
+        ps.close();
     } 
     
     
