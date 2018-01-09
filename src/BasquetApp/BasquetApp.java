@@ -9,6 +9,8 @@ import basquet.Basquet;
 import excepciones.MiExcepcion;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Equipo;
 import modelo.Jugadores;
 
@@ -18,7 +20,7 @@ import modelo.Jugadores;
  */
 public class BasquetApp {
     
-     public static void main(String[] args) throws MiExcepcion {
+     public static void main(String[] args)  {
         // Necesitamos un objeto de tipo RestaurantDAO
         Basquet basquet = new Basquet();
         System.out.println("Testeando conexión con la base de datos...");
@@ -47,7 +49,7 @@ public class BasquetApp {
                try {
                 basquet.insertarJugadores(j1);
                 System.out.println("jugador dado de alta");
-                } catch (SQLException ex) {
+                } catch (SQLException | MiExcepcion ex) {
                 System.out.println("Error al insertar: " + ex.getMessage());
                 }
              Jugadores j2 = new Jugadores("Martin", LocalDate.of(1997,04,20), 10, 20, 5, "Alero", e2);
@@ -55,9 +57,16 @@ public class BasquetApp {
                try {
                 basquet.insertarJugadores(j2);
                 System.out.println("jugador dado de alta");
-                } catch (SQLException ex) {
+                } catch (SQLException | MiExcepcion ex) {
                 System.out.println("Error al insertar: " + ex.getMessage());
-                }  
+                }
+             System.out.println("Testeando modificar canastas, asistencias y rebotes de jugadores" + j1.getNombre()); 
+               try{
+                    basquet.modificarCanastas(j1,35);
+                    System.out.println("Datos modificados");
+                } catch (MiExcepcion | SQLException ex) {
+                System.out.println("Error al insertar: " + ex.getMessage());
+               }
         } catch (SQLException ex) {
             System.out.println("Error al conectar / desconectar: " + ex.getMessage());
         }

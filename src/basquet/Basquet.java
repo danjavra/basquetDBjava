@@ -77,19 +77,44 @@ private Connection conexion;
     }
 
     
-      public void modificarCanastas(Jugadores j) throws SQLException, MiExcepcion {
+      public void modificarCanastas(Jugadores j, int valor) throws SQLException, MiExcepcion {
          if(!existeJugador(j)){
              throw new MiExcepcion("ERROR: No existe un jugador con ese nombre");
          }
-         String update = "update from player set canastas=? where nombre='" + j.getNombre() + "'";
+         String update = "update from player set nbaskets=? where name='" + j.getNombre() + "'";
          PreparedStatement ps = conexion.prepareStatement(update); 
         // Le damos valor a los interrogantes
-       
-        ps.setInt(3, j.getCanastas());
+        //ps.setString(2, j.getNombre());
+        ps.setInt(1, j.getCanastas());
         ps.executeUpdate();
         ps.close();
     } 
     
+      public void modificarAsistensias(Jugadores j) throws SQLException, MiExcepcion {
+         if(!existeJugador(j)){
+             throw new MiExcepcion("ERROR: No existe un jugador con ese nombre");
+         }
+         String update = "update from player set nassists=? where nombre='" + j.getNombre() + "'";
+         PreparedStatement ps = conexion.prepareStatement(update); 
+        // Le damos valor a los interrogantes
+       
+        ps.setInt(4, j.getAsistencias());
+        ps.executeUpdate();
+        ps.close();
+    } 
+      
+      public void modificarRebotes(Jugadores j, int valor) throws SQLException, MiExcepcion {
+         if(!existeJugador(j)){
+             throw new MiExcepcion("ERROR: No existe un jugador con ese nombre");
+         }
+         String update = "update from player set nrebounds=? where nombre='" + j.getNombre() + "'";
+         PreparedStatement ps = conexion.prepareStatement(update); 
+        // Le damos valor a los interrogantes
+       
+        ps.setInt(5, j.getRebotes());
+        ps.executeUpdate();
+        ps.close();
+    } 
     
      public void conectar() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/basket";
